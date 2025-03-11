@@ -19,7 +19,7 @@ const GET_MENU = gql(`
 const Menu = () => {
 	  const { data } = useQuery(GET_MENU)
 
-	  return data?.menus.map(i => <div key={i.identifier}>{i.label}</div>)
+	  return data?.menus.map(i => <div className="font-bold" key={i.identifier}>{i.label}</div>)
 }
 
 function App() {
