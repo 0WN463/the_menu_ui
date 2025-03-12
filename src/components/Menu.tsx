@@ -64,7 +64,7 @@ const Item = ({
   imageUrl: string;
 }) => {
   return (
-    <article key={identifier}>
+    <article key={identifier} className="shadow-lg">
       <img src={imageUrl} />
       <div className="p-2">
         <header className="text-md line-clamp-2 font-medium">{label}</header>
