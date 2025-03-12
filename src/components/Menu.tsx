@@ -1,3 +1,4 @@
+import { PropsWithChildren } from "react";
 import { useQuery } from "@apollo/client";
 
 import { gql } from "../__generated__/gql";
@@ -34,16 +35,38 @@ const Section = ({
   identifier,
   label,
   description,
-}: {
+  children,
+}: PropsWithChildren<{
   identifier: string;
   label: string;
   description: string;
-}) => {
+}>) => {
   return (
     <section key={identifier} id={identifier}>
       <header className="text-xl">{label}</header>
       <p>{description}</p>
+      {children}
     </section>
+  );
+};
+
+const Item = ({
+  identifier,
+  label,
+  description,
+  price,
+}: {
+  identifier: string;
+  label: string;
+  description: string;
+  price: number;
+}) => {
+  return (
+    <article key={identifier}>
+      <header>{label}</header>
+      <p>{description}</p>
+      <p>Price: {price}</p>
+    </article>
   );
 };
 
@@ -75,7 +98,16 @@ const Menu = () => {
             identifier={s.identifier ?? ""}
             label={s.label ?? ""}
             description={s.description ?? ""}
-          />
+          >
+            {s.items.map((i) => (
+              <Item
+                identifier={i.identifier ?? ""}
+                label={i.label ?? ""}
+                description={i.description ?? ""}
+                price={i.price ?? 0}
+              />
+            ))}
+          </Section>
         ))}
       </main>
     </div>
