@@ -22,10 +22,31 @@ const GET_MENU = gql(`
   }
 `);
 
+const SectionNav = ({label, id}: {label?: string, id: string}) => {
+	return <li id={id}><a href={`#${id}`}>{label}</a></li>
+}
+
 const Menu = () => {
 	  const { data } = useQuery(GET_MENU)
 
-	  return data?.menus.map(i => <div className="font-bold" key={i.identifier}>{i.label}</div>)
+          if (!data?.menus.length)
+		  return "Error! Missing Menu"
+
+	  const menu = data?.menus[0];
+
+	  const nav = <nav className="px-8">
+		<h1 className="text-2xl">{menu.label}</h1>
+	  <ol>
+	  {menu.sections.map(s => <SectionNav id={s.identifier ?? ""} label={s.label ?? undefined}/>)}
+	  </ol>
+	  </nav>
+
+	  return <div className="flex w-full">
+		  <aside className="flex-1/4">{nav}</aside>
+		  <main className="flex-3/4">
+		<h1 className="text-4xl font-extrabold">{menu.label}</h1>
+		</main>
+	  </div>
 }
 
 export default Menu
