@@ -22,7 +22,7 @@ const GET_MENU = gql(`
   }
 `);
 
-const SectionNav = ({ label, id }: { label?: string; id: string }) => {
+const SectionNav = ({ label, id }: { label: string; id: string }) => {
   return (
     <li id={id}>
       <a href={`#${id}`}>{label}</a>
@@ -42,7 +42,7 @@ const Menu = () => {
       <h1 className="text-2xl">{menu.label}</h1>
       <ol>
         {menu.sections.map((s) => (
-          <SectionNav id={s.identifier ?? ""} label={s.label ?? undefined} />
+          <SectionNav id={s.identifier ?? ""} label={s.label ?? ""} />
         ))}
       </ol>
     </nav>
