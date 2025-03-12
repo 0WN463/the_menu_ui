@@ -68,7 +68,12 @@ const Item = ({
       <img src={imageUrl} />
       <header>{label}</header>
       <p>{description}</p>
-      <p>Price: {price}</p>
+      <div className="flex justify-between">
+        <p>Price: {price}</p>
+        <button className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded">
+          Add
+        </button>
+      </div>
     </article>
   );
 };
