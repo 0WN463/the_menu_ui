@@ -99,7 +99,7 @@ const Menu = () => {
   return (
     <div className="flex w-full">
       <aside className="flex-1/4">{nav}</aside>
-      <main className="flex-3/4">
+      <main className="flex-3/4 py-2 px-6">
         <h1 className="text-4xl font-extrabold">{menu.label}</h1>
         {menu.sections.map((s) => (
           <Section
