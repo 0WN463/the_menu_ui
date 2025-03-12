@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState, useRef, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 
 import { motion } from "framer-motion";
@@ -87,8 +87,80 @@ const Item = ({
   );
 };
 
+const ItemModal = ({
+  label,
+  description,
+  price,
+  imageUrl,
+  isOpen,
+  onClose,
+}: {
+  label: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  const [isModalOpen, setModalOpen] = useState(isOpen);
+  const ref = useRef<HTMLDialogElement>(null);
+
+  const handleClose = (event: React.FormEvent) => {
+    event.preventDefault();
+    onClose();
+    setModalOpen(false);
+  };
+
+  useEffect(() => {
+    setModalOpen(isOpen);
+  }, [isOpen]);
+
+  useEffect(() => {
+    const modalElement = ref.current;
+
+    if (isModalOpen) {
+      modalElement?.showModal();
+    } else {
+      modalElement?.close();
+    }
+  }, [isModalOpen]);
+
+  return (
+    <dialog
+      ref={ref}
+      className="w-[80vw] h-[60vh] fixed left-[10vw] top-[10vh]"
+    >
+      <button onClick={handleClose} className="absolute right-2">
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke-width="2"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+      <div className="flex">
+        <img className="w-1/2 h-[60vh]" src={imageUrl} />
+        <form onSubmit={handleClose}>
+          <span>
+            <header>{label}</header>
+            <p>{description}</p>
+          </span>
+          <footer>{price}</footer>
+        </form>
+      </div>
+    </dialog>
+  );
+};
+
 const Menu = () => {
   const { data } = useQuery(GET_MENU);
+  const [modalOpen, setModalOpen] = useState(false);
 
   if (!data?.menus.length) return "Error! Missing Menu";
 
@@ -99,36 +171,53 @@ const Menu = () => {
       <h1 className="text-2xl">{menu.label}</h1>
       <ol>
         {menu.sections.map((s) => (
-          <SectionNav id={s.identifier ?? ""} label={s.label ?? ""} />
+          <SectionNav
+            key={s.identifier}
+            id={s.identifier ?? ""}
+            label={s.label ?? ""}
+          />
         ))}
       </ol>
     </nav>
   );
 
   return (
-    <div className="flex w-full">
-      <aside className="flex-1/4">{nav}</aside>
-      <main className="flex-3/4 py-2 px-6">
-        <h1 className="text-4xl font-extrabold">{menu.label}</h1>
-        {menu.sections.map((s) => (
-          <Section
-            identifier={s.identifier ?? ""}
-            label={s.label ?? ""}
-            description={s.description ?? ""}
-          >
-            {s.items.map((i) => (
-              <Item
-                identifier={i.identifier ?? ""}
-                label={i.label ?? ""}
-                description={i.description ?? ""}
-                price={i.price ?? 0}
-                imageUrl="https://placehold.co/480x480"
-              />
-            ))}
-          </Section>
-        ))}
-      </main>
-    </div>
+    <>
+      <ItemModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        label="soba"
+        description="lorem ipsum"
+        price={10.2}
+        imageUrl="https://placehold.co/480x480"
+      />
+      <div className="flex w-full">
+        <aside className="flex-1/4">{nav}</aside>
+        <main className="flex-3/4 py-2 px-6">
+          <h1 className="text-4xl font-extrabold">{menu.label}</h1>
+          {menu.sections.map((s) => (
+            <Section
+              key={s.identifier}
+              identifier={s.identifier ?? ""}
+              label={s.label ?? ""}
+              description={s.description ?? ""}
+            >
+              {s.items.map((i) => (
+                <Item
+                  key={i.identifier}
+                  identifier={i.identifier ?? ""}
+                  label={i.label ?? ""}
+                  description={i.description ?? ""}
+                  price={i.price ?? 0}
+                  imageUrl="https://placehold.co/480x480"
+                />
+              ))}
+            </Section>
+          ))}
+          <button onClick={() => setModalOpen(true)}> Click </button>
+        </main>
+      </div>
+    </>
   );
 };
 
