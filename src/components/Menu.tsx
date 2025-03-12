@@ -86,7 +86,7 @@ const Menu = () => {
   const menu = data?.menus[0];
 
   const nav = (
-    <nav className="px-8">
+    <nav className="px-8 fixed">
       <h1 className="text-2xl">{menu.label}</h1>
       <ol>
         {menu.sections.map((s) => (
