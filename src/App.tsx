@@ -12,7 +12,23 @@ const client = new ApolloClient<{}>({
 
 
 const GET_MENU = gql(`
-  query GetMenu { menus {label, identifier}}
+  query GetMenu {
+	  menus {
+		  label
+		  identifier
+		  sections {
+			  identifier
+			  label
+			  description
+			  items {
+				  identifier
+				  label
+				  description
+				  price
+			  }
+		  }
+	  }
+  }
 `);
 
  
