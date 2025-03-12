@@ -1,17 +1,18 @@
-import './App.css'
+import "./App.css";
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-import Menu from './components/Menu'
+import Menu from "./components/Menu";
 
 const client = new ApolloClient<{}>({
-  uri: 'http://localhost:3000/graphql',
+  uri: "http://localhost:3000/graphql",
   cache: new InMemoryCache(),
 });
 
-const App = () => 
+const App = () => (
   <ApolloProvider client={client}>
-      <Menu />
+    <Menu />
   </ApolloProvider>
+);
 
-export default App
+export default App;
