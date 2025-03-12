@@ -30,6 +30,23 @@ const SectionNav = ({ label, id }: { label: string; id: string }) => {
   );
 };
 
+const Section = ({
+  identifier,
+  label,
+  description,
+}: {
+  identifier: string;
+  label: string;
+  description: string;
+}) => {
+  return (
+    <section key={identifier} id={identifier}>
+      <header className="text-xl">{label}</header>
+      <p>{description}</p>
+    </section>
+  );
+};
+
 const Menu = () => {
   const { data } = useQuery(GET_MENU);
 
@@ -53,6 +70,13 @@ const Menu = () => {
       <aside className="flex-1/4">{nav}</aside>
       <main className="flex-3/4">
         <h1 className="text-4xl font-extrabold">{menu.label}</h1>
+        {menu.sections.map((s) => (
+          <Section
+            identifier={s.identifier ?? ""}
+            label={s.label ?? ""}
+            description={s.description ?? ""}
+          />
+        ))}
       </main>
     </div>
   );
