@@ -45,7 +45,7 @@ const Section = ({
     <section key={identifier} id={identifier}>
       <header className="text-xl">{label}</header>
       <p>{description}</p>
-      {children}
+      <div className="grid gap-6 grid-cols-3">{children}</div>
     </section>
   );
 };
