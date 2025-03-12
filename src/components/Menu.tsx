@@ -55,14 +55,17 @@ const Item = ({
   label,
   description,
   price,
+  imageUrl,
 }: {
   identifier: string;
   label: string;
   description: string;
   price: number;
+  imageUrl: string;
 }) => {
   return (
     <article key={identifier}>
+      <img src={imageUrl} />
       <header>{label}</header>
       <p>{description}</p>
       <p>Price: {price}</p>
@@ -105,6 +108,7 @@ const Menu = () => {
                 label={i.label ?? ""}
                 description={i.description ?? ""}
                 price={i.price ?? 0}
+                imageUrl="https://placehold.co/480x480"
               />
             ))}
           </Section>
