@@ -25,7 +25,7 @@ const GET_MENU = gql(`
 
 const SectionNav = ({ label, id }: { label: string; id: string }) => {
   return (
-    <li id={id}>
+    <li>
       <a href={`#${id}`}>{label}</a>
     </li>
   );
