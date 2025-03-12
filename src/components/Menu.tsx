@@ -1,6 +1,8 @@
 import { PropsWithChildren } from "react";
 import { useQuery } from "@apollo/client";
 
+import { motion } from "framer-motion";
+
 import { gql } from "../__generated__/gql";
 
 const GET_MENU = gql(`
@@ -42,11 +44,16 @@ const Section = ({
   description: string;
 }>) => {
   return (
-    <section key={identifier} id={identifier}>
+    <motion.section
+      key={identifier}
+      id={identifier}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+    >
       <header className="text-xl">{label}</header>
       <p>{description}</p>
       <div className="grid gap-6 grid-cols-3">{children}</div>
-    </section>
+    </motion.section>
   );
 };
 
