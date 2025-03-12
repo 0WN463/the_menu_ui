@@ -66,13 +66,15 @@ const Item = ({
   return (
     <article key={identifier}>
       <img src={imageUrl} />
-      <header className="text-md line-clamp-2 font-medium">{label}</header>
-      <p className="line-clamp-3">{description}</p>
-      <div className="flex justify-between items-center">
-        <p>${price.toFixed(2)}</p>
-        <button className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded">
-          Add
-        </button>
+      <div className="p-2">
+        <header className="text-md line-clamp-2 font-medium">{label}</header>
+        <p className="line-clamp-3">{description}</p>
+        <div className="flex justify-between items-center">
+          <p>${price.toFixed(2)}</p>
+          <button className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded">
+            Add
+          </button>
+        </div>
       </div>
     </article>
   );
