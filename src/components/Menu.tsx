@@ -45,18 +45,20 @@ const Section = ({
   identifier,
   label,
   description,
+  isAvailable = true,
   children,
 }: PropsWithChildren<{
   identifier: string;
   label: string;
   description: string;
+  isAvailable?: boolean;
 }>) => {
   return (
     <motion.section
       key={identifier}
       id={identifier}
       initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
+      whileInView={{ opacity: isAvailable ? 1 : 0.5 }}
     >
       <header className="text-xl">{label}</header>
       <p>{description}</p>
@@ -240,6 +242,7 @@ const Menu = () => {
               identifier={s.identifier ?? ""}
               label={s.label ?? ""}
               description={s.description ?? ""}
+              isAvailable={s.identifier !== "seasonal_items"}
             >
               {s.items.map((i) => (
                 <Item
@@ -250,7 +253,10 @@ const Menu = () => {
                   price={i.price ?? 0}
                   imageUrl="https://placehold.co/480x480"
                   onExpanded={setExpandedItem}
-                  isAvailable={i.identifier !== "yakisoba"}
+                  isAvailable={
+                    i.identifier !== "yakisoba" &&
+                    s.identifier !== "seasonal_items"
+                  }
                 />
               ))}
             </Section>
