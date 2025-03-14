@@ -5,6 +5,14 @@ import { motion } from "framer-motion";
 
 import { gql } from "../__generated__/gql";
 
+type ItemDetails = {
+  identifier: string;
+  label: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+};
+
 const GET_MENU = gql(`
   query GetMenu {
 	  menus {
@@ -63,22 +71,37 @@ const Item = ({
   description,
   price,
   imageUrl,
-}: {
-  identifier: string;
-  label: string;
-  description: string;
-  price: number;
-  imageUrl: string;
+  onExpanded,
+}: ItemDetails & {
+  onExpanded: (_: ItemDetails) => void;
 }) => {
   return (
-    <article key={identifier} className="shadow-lg rounded-xl">
+    <article
+      key={identifier}
+      className="shadow-lg rounded-xl"
+      onClick={() =>
+        onExpanded({
+          identifier,
+          label,
+          description,
+          price,
+          imageUrl,
+        })
+      }
+    >
       <img className="rounded-t-xl" src={imageUrl} />
       <div className="p-2">
         <header className="text-md line-clamp-2 font-medium">{label}</header>
         <p className="line-clamp-3">{description}</p>
         <div className="flex justify-between items-center">
           <p>${price.toFixed(2)}</p>
-          <button className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded">
+          <button
+            className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log("add item");
+            }}
+          >
             Add
           </button>
         </div>
@@ -94,11 +117,7 @@ const ItemModal = ({
   imageUrl,
   isOpen,
   onClose,
-}: {
-  label: string;
-  description: string;
-  price: number;
-  imageUrl: string;
+}: ItemDetails & {
   isOpen: boolean;
   onClose: () => void;
 }) => {
@@ -107,9 +126,13 @@ const ItemModal = ({
 
   const handleClose = (event: React.FormEvent) => {
     event.preventDefault();
-    onClose();
     setModalOpen(false);
   };
+
+  useEffect(() => {
+    ref.current?.addEventListener("close", () => onClose());
+    return () => ref.current?.removeEventListener("close", () => onClose());
+  }, []);
 
   useEffect(() => {
     setModalOpen(isOpen);
@@ -134,12 +157,12 @@ const ItemModal = ({
         <svg
           className="w-6 h-6"
           fill="none"
-          stroke-width="2"
+          strokeWidth="2"
           stroke="currentColor"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             d="M6 18L18 6M6 6l12 12"
           ></path>
         </svg>
@@ -160,7 +183,7 @@ const ItemModal = ({
 
 const Menu = () => {
   const { data } = useQuery(GET_MENU);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [expandedItem, setExpandedItem] = useState<ItemDetails>();
 
   if (!data?.menus.length) return "Error! Missing Menu";
 
@@ -183,14 +206,13 @@ const Menu = () => {
 
   return (
     <>
-      <ItemModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        label="soba"
-        description="lorem ipsum"
-        price={10.2}
-        imageUrl="https://placehold.co/480x480"
-      />
+      {expandedItem && (
+        <ItemModal
+          isOpen={true}
+          onClose={() => setExpandedItem(undefined)}
+          {...expandedItem}
+        />
+      )}
       <div className="flex w-full">
         <aside className="flex-1/4">{nav}</aside>
         <main className="flex-3/4 py-2 px-6">
@@ -210,11 +232,11 @@ const Menu = () => {
                   description={i.description ?? ""}
                   price={i.price ?? 0}
                   imageUrl="https://placehold.co/480x480"
+                  onExpanded={setExpandedItem}
                 />
               ))}
             </Section>
           ))}
-          <button onClick={() => setModalOpen(true)}> Click </button>
         </main>
       </div>
     </>
