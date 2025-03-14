@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import Menu from "./components/Menu";
 
 const client = new ApolloClient<{}>({
-  uri: "http://localhost:3000/graphql",
+  uri: import.meta.env.VITE_BACKEND_URL,
   cache: new InMemoryCache(),
 });
 
