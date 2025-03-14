@@ -1,4 +1,5 @@
 import { PropsWithChildren, useState, useRef, useEffect } from "react";
+import SectionNav from "./SectionNav";
 import { useQuery } from "@apollo/client";
 
 import { motion } from "framer-motion";
@@ -33,14 +34,6 @@ const GET_MENU = gql(`
 	  }
   }
 `);
-
-const SectionNav = ({ label, id }: { label: string; id: string }) => {
-  return (
-    <li>
-      <a href={`#${id}`}>{label}</a>
-    </li>
-  );
-};
 
 const Section = ({
   identifier,
