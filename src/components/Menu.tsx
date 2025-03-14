@@ -11,6 +11,7 @@ type ItemDetails = {
   description: string;
   price: number;
   imageUrl: string;
+  isAvailable: boolean;
 };
 
 const GET_MENU = gql(`
@@ -45,7 +46,7 @@ const Section = ({
   identifier,
   label,
   description,
-  isAvailable = true,
+  isAvailable,
   children,
 }: PropsWithChildren<{
   identifier: string;
@@ -73,10 +74,9 @@ const Item = ({
   description,
   price,
   imageUrl,
-  isAvailable = true,
+  isAvailable,
   onExpanded,
 }: ItemDetails & {
-  isAvailable?: boolean;
   onExpanded: (_: ItemDetails) => void;
 }) => {
   return (
@@ -90,6 +90,7 @@ const Item = ({
           description,
           price,
           imageUrl,
+          isAvailable,
         })
       }
     >
@@ -122,6 +123,7 @@ const ItemModal = ({
   description,
   price,
   imageUrl,
+  isAvailable,
   isOpen,
   onClose,
 }: ItemDetails & {
@@ -189,8 +191,11 @@ const ItemModal = ({
                 <span className="flex justify-center items-center"> 1 </span>
                 <button>+</button>
               </div>
-              <button className="bg-red-300 flex-grow py-2">
-                Add (${price})
+              <button
+                className="bg-red-500  text-white flex-grow py-2 disabled:bg-red-300"
+                disabled={!isAvailable}
+              >
+                {isAvailable ? `Add (${price})` : "Unavailable"}
               </button>
             </footer>
           </form>
