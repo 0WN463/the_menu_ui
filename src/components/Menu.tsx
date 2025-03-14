@@ -61,8 +61,8 @@ const Section = ({
       initial={{ opacity: 0 }}
       whileInView={{ opacity: isAvailable ? 1 : 0.5 }}
     >
-      <header className="text-xl">{label}</header>
-      <p>{description}</p>
+      <header className="text-xl my-4">{label}</header>
+      <p className="my-4">{description}</p>
       <div className="grid gap-6 grid-cols-3">{children}</div>
     </motion.section>
   );
@@ -240,7 +240,7 @@ const Menu = () => {
       <div className="flex w-full">
         <aside className="flex-1/4">{nav}</aside>
         <main className="flex-3/4 py-2 px-6">
-          <h1 className="text-4xl font-extrabold">{menu.label}</h1>
+          <h1 className="text-4xl font-extrabold mb-8">{menu.label}</h1>
           {menu.sections.map((s) => (
             <Section
               key={s.identifier}
