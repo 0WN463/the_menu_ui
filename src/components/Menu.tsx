@@ -71,8 +71,10 @@ const Item = ({
   description,
   price,
   imageUrl,
+  isAvailable = true,
   onExpanded,
 }: ItemDetails & {
+  isAvailable?: boolean;
   onExpanded: (_: ItemDetails) => void;
 }) => {
   return (
@@ -98,13 +100,14 @@ const Item = ({
         <div className="flex justify-between items-center">
           <p>${price.toFixed(2)}</p>
           <button
-            className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+            className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded disabled:bg-red-300"
+            disabled={!isAvailable}
             onClick={(e) => {
               e.stopPropagation();
               console.log("add item");
             }}
           >
-            Add
+            {isAvailable ? "Add" : "Unavailable"}
           </button>
         </div>
       </div>
@@ -247,6 +250,7 @@ const Menu = () => {
                   price={i.price ?? 0}
                   imageUrl="https://placehold.co/480x480"
                   onExpanded={setExpandedItem}
+                  isAvailable={i.identifier !== "yakisoba"}
                 />
               ))}
             </Section>
