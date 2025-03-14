@@ -1,20 +1,10 @@
-import { PropsWithChildren, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import SectionNav from "./SectionNav";
 import Section from "./Section";
+import ItemCard, { ItemDetails } from "./ItemCard";
 import { useQuery } from "@apollo/client";
 
-import { motion } from "framer-motion";
-
 import { gql } from "../__generated__/gql";
-
-type ItemDetails = {
-  identifier: string;
-  label: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  isAvailable: boolean;
-};
 
 const GET_MENU = gql(`
   query GetMenu {
@@ -35,56 +25,6 @@ const GET_MENU = gql(`
 	  }
   }
 `);
-
-const Item = ({
-  identifier,
-  label,
-  description,
-  price,
-  imageUrl,
-  isAvailable,
-  onExpanded,
-}: ItemDetails & {
-  onExpanded: (_: ItemDetails) => void;
-}) => {
-  return (
-    <article
-      key={identifier}
-      className="shadow-lg rounded-xl"
-      onClick={() =>
-        onExpanded({
-          identifier,
-          label,
-          description,
-          price,
-          imageUrl,
-          isAvailable,
-        })
-      }
-    >
-      <div className="overflow-hidden rounded-t-xl">
-        <motion.img src={imageUrl} whileHover={{ scale: 1.3 }} />
-      </div>
-      <div className="p-2 flex flex-col h-40">
-        <header className="text-md line-clamp-2 font-medium">{label}</header>
-        <p className="line-clamp-3">{description}</p>
-        <div className="flex justify-between items-center mt-auto">
-          <p>${price.toFixed(2)}</p>
-          <button
-            className="bg-red-500 hover:bg-red-300 text-white font-bold py-2 px-4 rounded disabled:bg-red-300 disabled:hover:bg-red-400"
-            disabled={!isAvailable}
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log("add item");
-            }}
-          >
-            {isAvailable ? "Add" : "Unavailable"}
-          </button>
-        </div>
-      </div>
-    </article>
-  );
-};
 
 const ItemModal = ({
   label,
@@ -218,7 +158,7 @@ const Menu = () => {
               isAvailable={s.identifier !== "seasonal_items"}
             >
               {s.items.map((i) => (
-                <Item
+                <ItemCard
                   key={i.identifier}
                   identifier={i.identifier ?? ""}
                   label={i.label ?? ""}
