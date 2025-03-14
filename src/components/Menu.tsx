@@ -151,7 +151,7 @@ const ItemModal = ({
   return (
     <dialog
       ref={ref}
-      className="w-[80vw] h-[60vh] fixed left-[10vw] top-[10vh]"
+      className="w-[80vw] h-[80vh] fixed left-[10vw] top-[10vh]"
     >
       <button onClick={handleClose} className="absolute right-2">
         <svg
@@ -168,13 +168,22 @@ const ItemModal = ({
         </svg>
       </button>
       <div className="flex">
-        <img className="w-1/2 h-[60vh]" src={imageUrl} />
-        <form onSubmit={handleClose}>
-          <span>
-            <header>{label}</header>
+        <img className="w-1/2 h-[80vh] object-cover" src={imageUrl} />
+        <form onSubmit={handleClose} className="flex flex-col w-1/2">
+          <span className="flex-grow m-6">
+            <header className="text-xl">{label}</header>
             <p>{description}</p>
           </span>
-          <footer>{price}</footer>
+          <footer className="bg-gray-200 w-full flex gap-4 p-4">
+            <div className="border-2 grid grid-cols-3 w-1/5">
+              <button>-</button>
+              <span className="flex justify-center items-center"> 1 </span>
+              <button>+</button>
+            </div>
+            <button className="bg-red-300 flex-grow py-2">
+              Add (${price})
+            </button>
+          </footer>
         </form>
       </div>
     </dialog>
