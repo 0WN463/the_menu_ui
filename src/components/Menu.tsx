@@ -103,7 +103,7 @@ const Item = ({
         <div className="flex justify-between items-center mt-auto">
           <p>${price.toFixed(2)}</p>
           <button
-            className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded disabled:bg-red-300"
+            className="bg-red-500 hover:bg-red-300 text-white font-bold py-2 px-4 rounded disabled:bg-red-300 disabled:hover:bg-red-400"
             disabled={!isAvailable}
             onClick={(e) => {
               e.stopPropagation();
@@ -192,7 +192,7 @@ const ItemModal = ({
                 <button>+</button>
               </div>
               <button
-                className="bg-red-500  text-white flex-grow py-2 disabled:bg-red-300"
+                className="bg-red-500  hover:bg-red-300 text-white flex-grow py-2 disabled:bg-red-300 disabled:hover:bg-red-500"
                 disabled={!isAvailable}
               >
                 {isAvailable ? `Add (${price})` : "Unavailable"}
