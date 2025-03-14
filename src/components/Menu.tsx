@@ -89,7 +89,9 @@ const Item = ({
         })
       }
     >
-      <img className="rounded-t-xl" src={imageUrl} />
+      <div className="overflow-hidden rounded-t-xl">
+        <motion.img src={imageUrl} whileHover={{ scale: 1.3 }} />
+      </div>
       <div className="p-2">
         <header className="text-md line-clamp-2 font-medium">{label}</header>
         <p className="line-clamp-3">{description}</p>
