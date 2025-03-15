@@ -21,6 +21,7 @@ const GET_MENU = gql(`
 				  label
 				  description
 				  price
+				  imageUrl
 			  }
 		  }
 	  }
@@ -78,7 +79,7 @@ const Menu = () => {
                   label={i.label ?? ""}
                   description={i.description ?? ""}
                   price={i.price ?? 0}
-                  imageUrl="https://placehold.co/480x480"
+                  imageUrl={i.imageUrl ?? "https://placehold.co/480x480"}
                   onExpanded={setExpandedItem}
                   isAvailable={
                     i.identifier !== "yakisoba" &&
