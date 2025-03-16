@@ -15,6 +15,7 @@ const ItemModal = ({
 }) => {
   const [isModalOpen, setModalOpen] = useState(isOpen);
   const ref = useRef<HTMLDialogElement>(null);
+  const [amount, setAmount] = useState<number>(1);
 
   const handleClose = (event: React.FormEvent) => {
     event.preventDefault();
@@ -70,9 +71,26 @@ const ItemModal = ({
             </span>
             <footer className="bg-gray-200 w-full flex gap-4 p-4">
               <div className="border-2 grid grid-cols-3 w-1/5">
-                <button>-</button>
-                <span className="flex justify-center items-center"> 1 </span>
-                <button>+</button>
+                <button
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setAmount(amount - 1);
+                  }}
+                >
+                  -
+                </button>
+                <span className="flex justify-center items-center">
+                  {amount}
+                </span>
+                <button
+                  onClick={(event) => {
+                    event.preventDefault();
+                    if (amount <= 0) return;
+                    setAmount(amount + 1);
+                  }}
+                >
+                  +
+                </button>
               </div>
               <button
                 className="bg-red-500  hover:bg-red-300 text-white flex-grow py-2 disabled:bg-red-300 disabled:hover:bg-red-500"
