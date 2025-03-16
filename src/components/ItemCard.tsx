@@ -39,8 +39,10 @@ const ItemCard = ({
         <motion.img src={imageUrl} whileHover={{ scale: 1.3 }} />
       </div>
       <div className="p-2 flex flex-col h-40">
-        <header className="text-md line-clamp-2 font-medium">{label}</header>
-        <p className="line-clamp-3">{description}</p>
+        <header className="text-md line-clamp-2 font-medium font-label">
+          {label}
+        </header>
+        <p className="line-clamp-3 font-description">{description}</p>
         <div className="flex justify-between items-center mt-auto">
           <p>${price.toFixed(2)}</p>
           <button

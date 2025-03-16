@@ -65,8 +65,8 @@ const ItemModal = ({
           <img className="w-1/2 h-[80vh] object-cover" src={imageUrl} />
           <form onSubmit={handleClose} className="flex flex-col w-1/2">
             <span className="flex-grow m-6">
-              <header className="text-xl">{label}</header>
-              <p>{description}</p>
+              <header className="text-xl font-label">{label}</header>
+              <p className="font-description">{description}</p>
             </span>
             <footer className="bg-gray-200 w-full flex gap-4 p-4">
               <div className="border-2 grid grid-cols-3 w-1/5">

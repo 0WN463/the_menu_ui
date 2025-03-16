@@ -9,7 +9,7 @@ const SectionNav = ({
 }) => {
   return (
     <li
-      className={`border-l-4 pl-2 leading-8 ${isCurrent ? "border-red-500" : "border-gray-200"}`}
+      className={`border-l-4 pl-2 leading-8 font-description ${isCurrent ? "border-red-500" : "border-gray-200"}`}
       onClick={(event) => {
         event.preventDefault();
         const anchor = document.querySelector(`#${id}`);

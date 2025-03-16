@@ -32,8 +32,8 @@ const Section = ({
       initial={{ opacity: 0 }}
       whileInView={{ opacity: isAvailable ? 1 : 0.5 }}
     >
-      <header className="text-xl my-4">{label}</header>
-      <p className="my-4">{description}</p>
+      <header className="text-xl my-4 font-label">{label}</header>
+      <p className="my-4 font-description">{description}</p>
       <div className="grid gap-6 grid-cols-3">{children}</div>
     </motion.section>
   );
