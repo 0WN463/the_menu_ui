@@ -54,12 +54,18 @@ const Spinner = () => (
 const Menu = () => {
   const { data, loading } = useQuery(GET_MENU);
   const [expandedItem, setExpandedItem] = useState<ItemDetails>();
+  const [currentSections, setCurrentSections] = useState<Set<string>>(
+    new Set(),
+  );
 
   if (loading) return <Spinner />;
 
   if (!data?.menus.length) return "Error! Missing Menu";
 
   const menu = data?.menus[0];
+  const firstVisibleSection = menu.sections
+    .map((s) => s.identifier ?? "")
+    .find((s) => currentSections.has(s));
 
   const nav = (
     <nav className="px-8 fixed">
@@ -70,6 +76,7 @@ const Menu = () => {
             key={s.identifier}
             id={s.identifier ?? ""}
             label={s.label ?? ""}
+            isCurrent={s.identifier === firstVisibleSection}
           />
         ))}
       </ol>
@@ -85,7 +92,7 @@ const Menu = () => {
           {...expandedItem}
         />
       )}
-      <div className="flex w-full">
+      <div className="flex w-full pb-[40em]">
         <aside className="flex-1/4">{nav}</aside>
         <main className="flex-3/4 py-2 px-6">
           <h1 className="text-4xl font-extrabold mb-8">{menu.label}</h1>
@@ -96,6 +103,19 @@ const Menu = () => {
               label={s.label ?? ""}
               description={s.description ?? ""}
               isAvailable={s.identifier !== "seasonal_items"}
+              onVisibleChanged={(section: string, isVisible: boolean) => {
+                const newSections = new Set(currentSections);
+
+                if (isVisible) {
+                  newSections.add(section);
+                } else {
+                  newSections.delete(section);
+                }
+
+                if (newSections.size == currentSections.size) return;
+
+                setCurrentSections(newSections);
+              }}
             >
               {s.items.map((i) => (
                 <ItemCard

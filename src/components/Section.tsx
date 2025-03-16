@@ -1,21 +1,33 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+
+import { useInView } from "motion/react";
 
 const Section = ({
   identifier,
   label,
   description,
   isAvailable,
+  onVisibleChanged,
   children,
 }: PropsWithChildren<{
   identifier: string;
   label: string;
   description: string;
   isAvailable?: boolean;
+  onVisibleChanged: (_: string, __: boolean) => void;
 }>) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+
+  useEffect(() => {
+    onVisibleChanged(identifier, isInView);
+  }, [isInView, onVisibleChanged]);
+
   return (
     <motion.section
       key={identifier}
+      ref={ref}
       id={identifier}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: isAvailable ? 1 : 0.5 }}
