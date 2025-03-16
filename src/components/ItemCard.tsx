@@ -36,7 +36,11 @@ const ItemCard = ({
       }
     >
       <div className="overflow-hidden rounded-t-xl">
-        <motion.img src={imageUrl} whileHover={{ scale: 1.3 }} />
+        <motion.img
+          src={imageUrl}
+          whileHover={{ scale: 1.3 }}
+          transition={{ duration: 0.2, type: "tween" }}
+        />
       </div>
       <div className="p-2 flex flex-col h-40">
         <header className="text-md line-clamp-2 font-medium font-label">
